@@ -40,7 +40,7 @@ export const getStore = <T>(
   if (devtools) {
     let devtoolsOptions = {};
     if(devtools instanceof Object) {
-      devtoolsOptions = devtools.options;
+      devtoolsOptions = devtools.options || {};
     }
     storeEnhancers = composeWithDevTools(devtoolsOptions)(applyMiddleware(promiseMiddleware, sagaMiddleware, ...middlewares));
   }
