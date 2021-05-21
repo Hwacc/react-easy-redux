@@ -61,10 +61,19 @@ export interface IPlugin<S> {
 /** 初始化easy-redux的时候调用的方法 */
 export const getStore: <T>(
     models: Array<IModel<any>>,
-    plugins?: Array<IPlugin<any>>,
-    midllewares?: Array<Middleware>,
-    devtoolsOptions?: EnhancerOptions | null | undefined,
+    options?: IStoreOptions
 ) => Store;
+
+export interface IStoreOptions {
+  plugins?:Array<IPlugin<any>>,
+  midllewares?: Array<Middleware>,
+  devtools?: IStoreDevTools | boolean,
+}
+
+export interface IStoreDevTools {
+  enable: boolean,
+  options: EnhancerOptions
+}
 
 export interface IEffectPayload {
     /** 是否自己捕捉异常 */

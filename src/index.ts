@@ -5,7 +5,7 @@ import loadingPlugin, { ILoading } from './plugins/loading';
 import getSagas from './getSagas';
 import getReducers from './getReducer';
 import easyConnect from './connect';
-import { IModel, IPlugin } from './types';
+import { IModel, IStoreOptions, IStoreDevTools } from './types';
 import { composeWithDevTools, EnhancerOptions } from 'redux-devtools-extension';
 
 export interface IRootState {
@@ -18,13 +18,11 @@ export interface IRootState {
  */
 export const getStore = <T>(
   models: Array<IModel<any>>,
-  plugins?: Array<IPlugin<any>>,
-  midllewares?: Array<Middleware>,
-  devtoolsOptions?: EnhancerOptions,
+  options: IStoreOptions = {}
 ): Store => {
-  const allPlugins = plugins
-    ? [...[loadingPlugin], ...plugins]
-    : [loadingPlugin];
+  const { plugins = [], midllewares = [], devtools } = options;
+
+  const allPlugins = [...[loadingPlugin], ...plugins];
 
   const rootSaga = getSagas.bind(
     null,
@@ -39,10 +37,14 @@ export const getStore = <T>(
 
   let storeEnhancers = compose(applyMiddleware(promiseMiddleware, sagaMiddleware, ...midllewares));
 
-  if(devtoolsOptions) {
+  if (devtools) {
+    let devtoolsOptions = {};
+    if(devtools instanceof Object) {
+      devtoolsOptions = devtools.options;
+    }
     storeEnhancers = composeWithDevTools(devtoolsOptions)(applyMiddleware(promiseMiddleware, sagaMiddleware, ...midllewares));
   }
-
+  
   const store = createStore(
     combineReducers<T>(rootReducers),
     storeEnhancers
