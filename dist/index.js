@@ -23,19 +23,19 @@ var redux_devtools_extension_1 = require("redux-devtools-extension");
  */
 var getStore = function (models, options) {
     if (options === void 0) { options = {}; }
-    var _a = options.plugins, plugins = _a === void 0 ? [] : _a, _b = options.midllewares, midllewares = _b === void 0 ? [] : _b, devtools = options.devtools;
+    var _a = options.plugins, plugins = _a === void 0 ? [] : _a, _b = options.middlewares, middlewares = _b === void 0 ? [] : _b, devtools = options.devtools;
     var allPlugins = __spreadArray(__spreadArray([], [loading_1.default]), plugins);
     var rootSaga = getSagas_1.default.bind(null, models, allPlugins.map(function (item) { return item.onEffect; }));
     var rootReducers = getReducer_1.default(models, allPlugins);
     var sagaMiddleware = redux_saga_1.default();
     var promiseMiddleware = promise_1.default(models);
-    var storeEnhancers = redux_1.compose(redux_1.applyMiddleware.apply(void 0, __spreadArray([promiseMiddleware, sagaMiddleware], midllewares)));
+    var storeEnhancers = redux_1.compose(redux_1.applyMiddleware.apply(void 0, __spreadArray([promiseMiddleware, sagaMiddleware], middlewares)));
     if (devtools) {
         var devtoolsOptions = {};
         if (devtools instanceof Object) {
             devtoolsOptions = devtools.options;
         }
-        storeEnhancers = redux_devtools_extension_1.composeWithDevTools(devtoolsOptions)(redux_1.applyMiddleware.apply(void 0, __spreadArray([promiseMiddleware, sagaMiddleware], midllewares)));
+        storeEnhancers = redux_devtools_extension_1.composeWithDevTools(devtoolsOptions)(redux_1.applyMiddleware.apply(void 0, __spreadArray([promiseMiddleware, sagaMiddleware], middlewares)));
     }
     var store = redux_1.createStore(redux_1.combineReducers(rootReducers), storeEnhancers);
     sagaMiddleware.run(rootSaga);

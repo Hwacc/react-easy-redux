@@ -66,7 +66,7 @@ export const getStore: <T>(
 
 export interface IStoreOptions {
   plugins?:Array<IPlugin<any>>,
-  midllewares?: Array<Middleware>,
+  middlewares?: Array<Middleware>,
   devtools?: IStoreDevTools | boolean,
 }
 
