@@ -20,7 +20,7 @@ export const getStore = <T>(
   models: Array<IModel<any>>,
   plugins?: Array<IPlugin<any>>,
   midllewares?: Array<Middleware>,
-  devtoolsOptions?: EnhancerOptions | null | undefined,
+  devtoolsOptions?: EnhancerOptions,
 ): Store => {
   const allPlugins = plugins
     ? [...[loadingPlugin], ...plugins]
@@ -40,7 +40,7 @@ export const getStore = <T>(
   let storeEnhancers = compose(applyMiddleware(promiseMiddleware, sagaMiddleware, ...midllewares));
 
   if(devtoolsOptions) {
-    storeEnhancers = composeWithDevTools(devtoolsOptions || {})(applyMiddleware(promiseMiddleware, sagaMiddleware, ...midllewares));
+    storeEnhancers = composeWithDevTools(devtoolsOptions)(applyMiddleware(promiseMiddleware, sagaMiddleware, ...midllewares));
   }
 
   const store = createStore(

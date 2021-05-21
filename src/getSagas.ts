@@ -56,8 +56,8 @@ const extSagaEffects = (model: IModel<any>) => {
  * @param pluginOnEffects 扩展saga的插件
  */
 const getSagas = function*(
-    models: Array<IModel<any>> = [],
-    pluginOnEffects: Array<(...args: any[]) => any> = []
+    models: IModel<any>[] = [],
+    pluginOnEffects: ((...args: any[]) => any)[] = []
 ) {
     for (const model of models) {
         if (model.effects) {

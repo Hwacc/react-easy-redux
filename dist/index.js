@@ -30,7 +30,7 @@ var getStore = function (models, plugins, midllewares, devtoolsOptions) {
     var promiseMiddleware = promise_1.default(models);
     var storeEnhancers = redux_1.compose(redux_1.applyMiddleware.apply(void 0, __spreadArray([promiseMiddleware, sagaMiddleware], midllewares)));
     if (devtoolsOptions) {
-        storeEnhancers = redux_devtools_extension_1.composeWithDevTools(devtoolsOptions || {})(redux_1.applyMiddleware.apply(void 0, __spreadArray([promiseMiddleware, sagaMiddleware], midllewares)));
+        storeEnhancers = redux_devtools_extension_1.composeWithDevTools(devtoolsOptions)(redux_1.applyMiddleware.apply(void 0, __spreadArray([promiseMiddleware, sagaMiddleware], midllewares)));
     }
     var store = redux_1.createStore(redux_1.combineReducers(rootReducers), storeEnhancers);
     sagaMiddleware.run(rootSaga);

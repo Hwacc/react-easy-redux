@@ -1,5 +1,6 @@
-import { Store } from 'redux';
+import { Store, Middleware } from 'redux';
 import { Effect } from 'redux-saga/effects';
+import { EnhancerOptions } from 'redux-devtools-extension'
 
 export interface IStringMap {
     [propName: string]: any;
@@ -60,7 +61,9 @@ export interface IPlugin<S> {
 /** 初始化easy-redux的时候调用的方法 */
 export const getStore: <T>(
     models: Array<IModel<any>>,
-    plugins?: Array<IPlugin<any>>
+    plugins?: Array<IPlugin<any>>,
+    midllewares?: Array<Middleware>,
+    devtoolsOptions?: EnhancerOptions | null | undefined,
 ) => Store;
 
 export interface IEffectPayload {
